@@ -83,7 +83,7 @@ Only projects with tested, runnable implementations should be marked **Available
 
 | Week | Topic | Project | Status |
 |---|---|---|---|
-| 1 | Structured LLM outputs | Structured LLM Assistant | ✅ Available |
+| 1 | Structured LLM outputs | [Structured LLM Assistant](./projects/01-structured-llm-assistant/) | ✅ Available |
 | 2 | Tool calling | [Tool Calling Agent](./projects/02-tool-calling-agent/) | ✅ Available |
 | 3 | Agent loops | [Research Agent](./projects/03-research-agent/) | ✅ Available |
 | 4 | Retrieval | [Agentic RAG](./projects/04-agentic-rag/) | ✅ Available |
