@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1 and 2 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, and 3 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/)
 
 ## Learning Path
 
@@ -85,7 +85,7 @@ Only projects with tested, runnable implementations should be marked **Available
 |---|---|---|---|
 | 1 | Structured LLM outputs | Structured LLM Assistant | ✅ Available |
 | 2 | Tool calling | [Tool Calling Agent](./projects/02-tool-calling-agent/) | ✅ Available |
-| 3 | Agent loops | Research Agent | 🔜 Planned |
+| 3 | Agent loops | [Research Agent](./projects/03-research-agent/) | ✅ Available |
 | 4 | Retrieval | Agentic RAG | 🔜 Planned |
 | 5 | Memory | Memory-Aware Assistant | 🔜 Planned |
 | 6 | Agent patterns | Agent Pattern Examples | 🔜 Planned |
@@ -197,46 +197,66 @@ Understand the separation between **model reasoning** and **application-controll
 
 # Week 3: Build a Real Agent Loop
 
-A tool-enabled response is not automatically a complete agent.
+A tool-enabled response is not automatically a complete agent. Week 3 introduces explicit state, iterative actions, evidence checks, stopping conditions, and bounded autonomy.
 
 ## Learn
 
 - Agent loops
 - Observe → decide → act cycles
-- State
-- Planning
+- Explicit state
+- Research planning
+- Search actions
+- Evidence collection
+- Evidence sufficiency checks
+- Query refinement
 - Stopping conditions
 - Maximum-step limits
-- Retries
-- Failure states
+- Failure and incomplete-evidence states
+- Source citation
 
-## Planned Project: Research Agent
+## Build
 
-Input:
+### Research Agent
 
-> Research the current Agentic AI framework landscape and summarize the major differences.
+This project runs a complete research loop without requiring a paid API key.
 
-Proposed flow:
+It researches a question against a small local source corpus, records state across steps, evaluates whether the evidence is sufficient, refines the research query when needed, and produces a cited report.
+
+Example input:
+
+> Compare approaches used by major Agentic AI frameworks and SDKs.
 
 ```text
 Question
    ↓
-Create research plan
+Build research plan
    ↓
-Search / collect sources
+Search local source corpus
    ↓
-Extract relevant information
+Collect unique evidence
    ↓
-Check whether enough evidence exists
+Evaluate evidence coverage
    ↓
-Synthesize
+Enough evidence?
+  ↙            ↘
+Yes             No
+ ↓               ↓
+Stop          Refine query
+ ↓               ↓
+Synthesize  ← Search again
    ↓
-Final report
+Cited report
 ```
+
+The loop is bounded by a configurable maximum number of steps. It cannot continue indefinitely.
+
+**Project:** [03-research-agent](./projects/03-research-agent/)
+
+> **Zero-cost mode:** The working project uses only Python's standard library and a bundled educational source corpus. No OpenAI API key or paid service is required.
 
 ## Outcome
 
-Build a bounded agent that can perform multiple steps without allowing an uncontrolled infinite loop.
+Build and inspect a bounded research agent that plans, acts, updates state, evaluates evidence, stops deliberately, and produces traceable source-backed output.
 
 ---
 
@@ -654,14 +674,25 @@ agentic-ai-learning-roadmap/
     │   ├── requirements.txt
     │   ├── .env.example
     │   └── sample_output.json
-    └── 02-tool-calling-agent/
+    ├── 02-tool-calling-agent/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── tools.py
+    │   ├── test_tools.py
+    │   ├── requirements.txt
+    │   ├── .env.example
+    │   └── sample_session.md
+    └── 03-research-agent/
         ├── README.md
         ├── main.py
-        ├── tools.py
-        ├── test_tools.py
+        ├── models.py
+        ├── search.py
+        ├── research_agent.py
+        ├── test_research_agent.py
         ├── requirements.txt
-        ├── .env.example
-        └── sample_session.md
+        ├── sample_session.md
+        └── data/
+            └── sources.json
 ```
 
 Future project directories will be added only when they contain usable implementations.
