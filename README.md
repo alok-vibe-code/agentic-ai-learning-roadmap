@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Week 1 includes a runnable project. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1 and 2 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Current working project:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/)
 
 ## Learning Path
 
@@ -84,7 +84,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | Week | Topic | Project | Status |
 |---|---|---|---|
 | 1 | Structured LLM outputs | Structured LLM Assistant | ✅ Available |
-| 2 | Tool calling | Tool Calling Agent | 🔜 Planned |
+| 2 | Tool calling | [Tool Calling Agent](./projects/02-tool-calling-agent/) | ✅ Available |
 | 3 | Agent loops | Research Agent | 🔜 Planned |
 | 4 | Retrieval | Agentic RAG | 🔜 Planned |
 | 5 | Memory | Memory-Aware Assistant | 🔜 Planned |
@@ -157,33 +157,41 @@ Agents become useful when they can interact with software outside the model.
 - Permission boundaries
 - Failure handling
 
-## Planned Project: Tool Calling Agent
+## Build
 
-The agent will receive access to a small set of tools such as:
+### Tool Calling Agent
 
-- calculator
-- URL metadata checker
-- simple lookup utility
+This project gives the model access to three local, application-controlled tools:
 
-Example:
+- **Safe calculator** for arithmetic expressions
+- **URL analyzer** for parsing URL structure without fetching the website
+- **Text analyzer** for word, character, sentence, and unique-word counts
+
+The model decides whether a tool is needed. The Python application validates and executes the requested function, returns the result to the model, and lets the model produce the final response.
 
 ```text
 User request
     ↓
 Model decides whether a tool is needed
     ↓
-Validated tool call
+Structured function call
     ↓
-Application executes tool
+Application validates arguments
     ↓
-Tool result returned to model
+Local Python tool executes
+    ↓
+Function result returned to model
     ↓
 Final answer
 ```
 
+The project intentionally uses local deterministic tools so learners can focus on the function-calling lifecycle without adding extra third-party APIs.
+
+**Project:** [02-tool-calling-agent](./projects/02-tool-calling-agent/)
+
 ## Outcome
 
-Understand the separation between **model reasoning** and **application-controlled actions**.
+Understand the separation between **model reasoning** and **application-controlled actions**, and learn how to validate, route, execute, and return tool results safely.
 
 ---
 
@@ -640,12 +648,20 @@ agentic-ai-learning-roadmap/
 ├── checklists/
 │   └── production-readiness.md
 └── projects/
-    └── 01-structured-llm-assistant/
+    ├── 01-structured-llm-assistant/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── requirements.txt
+    │   ├── .env.example
+    │   └── sample_output.json
+    └── 02-tool-calling-agent/
         ├── README.md
         ├── main.py
+        ├── tools.py
+        ├── test_tools.py
         ├── requirements.txt
         ├── .env.example
-        └── sample_output.json
+        └── sample_session.md
 ```
 
 Future project directories will be added only when they contain usable implementations.
