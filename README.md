@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, and 11 include runnable projects. Week 12 remains planned until a working implementation is added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/) · [Week 9 - Multi-Agent Research Team](./projects/09-multi-agent-research-team/) · [Week 10 - Agent Evaluation Harness](./projects/10-agent-evaluation-harness/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/) · [Week 9 - Multi-Agent Research Team](./projects/09-multi-agent-research-team/) · [Week 10 - Agent Evaluation Harness](./projects/10-agent-evaluation-harness/) · [Week 11 - Secure Approval-Based Agent](./projects/11-secure-approval-based-agent/)
 
 ## Learning Path
 
@@ -93,7 +93,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 8 | MCP | [SEO MCP Server](./projects/08-seo-mcp-server/) | ✅ Available |
 | 9 | Multi-agent systems | [Multi-Agent Research Team](./projects/09-multi-agent-research-team/) | ✅ Available |
 | 10 | Evaluation | [Agent Evaluation Harness](./projects/10-agent-evaluation-harness/) | ✅ Available |
-| 11 | Security | Secure Approval-Based Agent | 🔜 Planned |
+| 11 | Security | [Secure Approval-Based Agent](./projects/11-secure-approval-based-agent/) | ✅ Available |
 | 12 | Production | Production-Hardened Agent | 🔜 Planned |
 
 ---
@@ -817,6 +817,8 @@ Learn to define expected agent behavior as repeatable tests, inspect execution t
 
 # Week 11: Guardrails, Security, and Human Oversight
 
+Security is not a single moderation check. Agent systems need controls around inputs, tool permissions, authorization, approvals, execution, and auditability.
+
 ## Learn
 
 - Prompt injection
@@ -827,36 +829,121 @@ Learn to define expected agent behavior as repeatable tests, inspect execution t
 - Data leakage
 - Authentication
 - Authorization
+- Least privilege
 - Sandboxing
 - Rate limiting
 - Audit logging
 - Human approval gates
+- Approval expiry
+- Fail-closed execution
+- Idempotency and replay protection
 
-## Planned Project: Secure Approval-Based Agent
+## Build
 
-Example policy:
+### Secure Approval-Based Agent
 
-### Low-risk actions
+The project models tools as explicit security boundaries.
 
-May run automatically:
+Actions are classified into four policy levels:
 
-- Search
-- Read approved data
-- Perform calculations
+```text
+LOW
+   ↓
+May execute automatically
 
-### Sensitive actions
+SENSITIVE
+   ↓
+Requires human approval
 
-Require human approval:
+FORBIDDEN
+   ↓
+Never executes
+
+UNKNOWN
+   ↓
+Fails closed
+```
+
+Low-risk demo actions include:
+
+- Search a bundled local knowledge base
+- Read an allowlisted local resource
+- Perform bounded calculations
+
+Sensitive simulated actions include:
 
 - Send email
 - Publish content
-- Delete files
-- Modify external systems
-- Execute financial actions
+- Delete a file
+- Modify an external-system record
+- Execute a financial transfer
+
+Sensitive actions do **not** execute merely because the agent planned them.
+
+The workflow is:
+
+```text
+User request
+   ↓
+Input guardrails
+   ↓
+Action planning
+   ↓
+Policy classification
+   ↓
+Authorization check
+   ↓
+LOW ───────────────→ execute
+   ↓
+SENSITIVE
+   ↓
+Create approval request
+   ↓
+Human approves exact action?
+   ├── No / expired / modified → blocked
+   └── Yes
+        ↓
+   Approval token validation
+        ↓
+   Simulated executor
+        ↓
+   Append-only audit event
+```
+
+Approval tokens are bound to:
+
+- exact action type
+- canonical parameters
+- requesting principal
+- approval request ID
+- expiry
+- one-time use
+
+Changing parameters after approval invalidates the approval.
+
+The project also demonstrates:
+
+- prompt-injection signal detection
+- secret-pattern rejection
+- allowlisted read targets
+- role-based authorization
+- per-principal rate limiting
+- tainted tool-output handling
+- approval expiry
+- replay protection
+- idempotency keys
+- append-only audit records
+- deterministic simulated external side effects
+
+**Project:** [11-secure-approval-based-agent](./projects/11-secure-approval-based-agent/)
+
+> **Zero-cost mode:** Python standard library only. No model API, network access, email provider, payment provider, or external system is required.
+
+> **Safety boundary:** Sensitive operations are simulated inside an in-memory sandbox. This project does not send real email, publish real content, delete real files, change real external systems, or transfer real money.
 
 ## Outcome
 
-Learn to treat tools as security boundaries and use least privilege.
+Learn to treat tools as security boundaries, apply least privilege, require human approval for consequential actions, and fail closed when authorization or approval is uncertain.
 
 ---
 
@@ -1058,23 +1145,42 @@ agentic-ai-learning-roadmap/
     │       ├── fact_checker.py
     │       ├── writer.py
     │       └── reviewer.py
-    └── 10-agent-evaluation-harness/
+    ├── 10-agent-evaluation-harness/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── cases.py
+    │   ├── demo_agent.py
+    │   ├── observability.py
+    │   ├── evaluator.py
+    │   ├── metrics.py
+    │   ├── regression.py
+    │   ├── reporters.py
+    │   ├── test_evaluation_harness.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   └── data/
+    │       ├── eval_cases.json
+    │       └── baseline.json
+    └── 11-secure-approval-based-agent/
         ├── README.md
         ├── main.py
         ├── models.py
-        ├── cases.py
-        ├── demo_agent.py
-        ├── observability.py
-        ├── evaluator.py
-        ├── metrics.py
-        ├── regression.py
-        ├── reporters.py
-        ├── test_evaluation_harness.py
+        ├── guardrails.py
+        ├── policy.py
+        ├── planner.py
+        ├── approvals.py
+        ├── authorization.py
+        ├── rate_limit.py
+        ├── audit.py
+        ├── executor.py
+        ├── secure_agent.py
+        ├── test_secure_agent.py
         ├── requirements.txt
         ├── sample_session.md
         └── data/
-            ├── eval_cases.json
-            └── baseline.json
+            ├── policy.json
+            └── knowledge.json
 ```
 
 Future project directories will be added only when they contain usable implementations.
