@@ -1,0 +1,189 @@
+[
+  {
+    "id": "react-paper",
+    "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+    "url": "https://arxiv.org/abs/2210.03629",
+    "source_type": "research-paper",
+    "year": 2022,
+    "tags": [
+      "agent-loop",
+      "reasoning",
+      "acting",
+      "tool-use",
+      "architecture"
+    ],
+    "summary": "ReAct presents an approach that interleaves reasoning traces with actions, giving an agent a repeated reason-act-observe pattern while interacting with tasks and environments.",
+    "key_points": [
+      "Alternates internal reasoning with external actions.",
+      "Makes observations from actions part of the next decision step.",
+      "Provides a useful conceptual foundation for bounded agent loops."
+    ]
+  },
+  {
+    "id": "openai-agents-sdk",
+    "title": "OpenAI Agents SDK",
+    "url": "https://openai.github.io/openai-agents-python/",
+    "source_type": "framework-docs",
+    "year": 2026,
+    "tags": [
+      "framework",
+      "sdk",
+      "tool-use",
+      "handoffs",
+      "guardrails",
+      "tracing",
+      "state"
+    ],
+    "summary": "The OpenAI Agents SDK provides primitives for agents, tools, handoffs, guardrails, sessions, and tracing, with an emphasis on a relatively small set of composable building blocks.",
+    "key_points": [
+      "Supports tool-using agents and handoffs between specialized agents.",
+      "Includes guardrail and tracing concepts.",
+      "Uses application code to orchestrate agent behavior and state."
+    ]
+  },
+  {
+    "id": "langgraph",
+    "title": "LangGraph",
+    "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+    "source_type": "framework-docs",
+    "year": 2026,
+    "tags": [
+      "framework",
+      "graph",
+      "state",
+      "workflow",
+      "human-in-the-loop",
+      "durability",
+      "tool-use"
+    ],
+    "summary": "LangGraph models agent workflows as stateful graphs. It emphasizes explicit state, durable execution, controlled workflow transitions, and human-in-the-loop patterns.",
+    "key_points": [
+      "Represents workflows using graph nodes and transitions.",
+      "Makes state a first-class part of the application.",
+      "Targets long-running and controllable agent workflows."
+    ]
+  },
+  {
+    "id": "google-adk",
+    "title": "Google Agent Development Kit (ADK)",
+    "url": "https://google.github.io/adk-docs/",
+    "source_type": "framework-docs",
+    "year": 2026,
+    "tags": [
+      "framework",
+      "sdk",
+      "multi-agent",
+      "tool-use",
+      "workflow",
+      "state"
+    ],
+    "summary": "Google ADK is a development kit for building agent applications with tools, workflow agents, multi-agent composition, sessions, and model integrations.",
+    "key_points": [
+      "Supports tool use and structured agent workflows.",
+      "Includes multi-agent composition patterns.",
+      "Provides session and state-oriented building blocks."
+    ]
+  },
+  {
+    "id": "microsoft-agent-framework",
+    "title": "Microsoft Agent Framework",
+    "url": "https://github.com/microsoft/agent-framework",
+    "source_type": "framework-repository",
+    "year": 2026,
+    "tags": [
+      "framework",
+      "sdk",
+      "workflow",
+      "multi-agent",
+      "tool-use",
+      "state"
+    ],
+    "summary": "Microsoft Agent Framework provides agent and workflow abstractions for building AI applications, including tool use, orchestration, stateful workflows, and multi-agent patterns.",
+    "key_points": [
+      "Combines agent abstractions with workflow orchestration.",
+      "Supports tool-enabled and multi-agent application patterns.",
+      "Targets production-oriented application development."
+    ]
+  },
+  {
+    "id": "pydantic-ai",
+    "title": "Pydantic AI",
+    "url": "https://ai.pydantic.dev/",
+    "source_type": "framework-docs",
+    "year": 2026,
+    "tags": [
+      "framework",
+      "python",
+      "structured-output",
+      "tool-use",
+      "testing",
+      "type-safety"
+    ],
+    "summary": "Pydantic AI is a Python agent framework that emphasizes typed application code, structured outputs, dependency injection, tool definitions, testing, and observability-friendly development.",
+    "key_points": [
+      "Uses Python typing and Pydantic models heavily.",
+      "Supports tools and structured model outputs.",
+      "Places strong emphasis on testable application code."
+    ]
+  },
+  {
+    "id": "crewai",
+    "title": "CrewAI",
+    "url": "https://docs.crewai.com/",
+    "source_type": "framework-docs",
+    "year": 2026,
+    "tags": [
+      "framework",
+      "multi-agent",
+      "roles",
+      "workflow",
+      "tool-use"
+    ],
+    "summary": "CrewAI focuses on organizing multiple role-oriented agents into crews and flows, providing abstractions for collaboration, delegation, tasks, and process-oriented orchestration.",
+    "key_points": [
+      "Uses role-oriented agent abstractions.",
+      "Supports coordinated multi-agent workflows.",
+      "Emphasizes tasks, crews, and flows as orchestration concepts."
+    ]
+  },
+  {
+    "id": "mcp-spec",
+    "title": "Model Context Protocol Specification",
+    "url": "https://modelcontextprotocol.io/specification",
+    "source_type": "protocol-specification",
+    "year": 2026,
+    "tags": [
+      "protocol",
+      "tool-use",
+      "resources",
+      "interoperability",
+      "security"
+    ],
+    "summary": "The Model Context Protocol defines a standard way for AI applications to connect with tools, resources, and contextual capabilities through client-server interactions.",
+    "key_points": [
+      "Separates AI applications from external capability providers.",
+      "Defines tools and resources as protocol-level concepts.",
+      "Introduces explicit trust and capability boundaries."
+    ]
+  },
+  {
+    "id": "agent-evaluation-guide",
+    "title": "Demystifying Evals for AI Agents",
+    "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+    "source_type": "engineering-guide",
+    "year": 2026,
+    "tags": [
+      "evaluation",
+      "testing",
+      "agents",
+      "reliability",
+      "production"
+    ],
+    "summary": "Agent evaluation guidance emphasizes defining tasks and outcomes, building representative evaluation cases, examining trajectories and failures, and measuring agent behavior rather than relying on isolated demos.",
+    "key_points": [
+      "Evaluation should reflect realistic task success and failure modes.",
+      "Agent trajectories and intermediate behavior matter.",
+      "Regression-oriented evaluation is important for production reliability."
+    ]
+  }
+]

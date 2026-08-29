@@ -1,0 +1,2 @@
+# No third-party Python packages are required.
+# Project 03 uses Python 3.10+ standard library only.
