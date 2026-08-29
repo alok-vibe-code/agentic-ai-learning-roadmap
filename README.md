@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, 4, 5, and 6 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, 4, 5, 6, and 7 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/)
 
 ## Learning Path
 
@@ -89,7 +89,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 4 | Retrieval | [Agentic RAG](./projects/04-agentic-rag/) | ✅ Available |
 | 5 | Memory | [Memory-Aware Assistant](./projects/05-memory-aware-assistant/) | ✅ Available |
 | 6 | Agent patterns | [Agent Pattern Examples](./projects/06-agent-pattern-examples/) | ✅ Available |
-| 7 | Frameworks | Framework Comparison Demo | 🔜 Planned |
+| 7 | Frameworks | [Framework Comparison Demo](./projects/07-framework-comparison-demo/) | ✅ Available |
 | 8 | MCP | SEO MCP Server | 🔜 Planned |
 | 9 | Multi-agent systems | Multi-Agent Research Team | 🔜 Planned |
 | 10 | Evaluation | Agent Evaluation Harness | 🔜 Planned |
@@ -460,6 +460,8 @@ Learn to choose and combine agent patterns based on the task's control-flow requ
 
 Frameworks are implementation choices, not the starting point.
 
+Week 7 compares several current agent ecosystems against the same normalized task and the same set of engineering requirements.
+
 ## Learn
 
 Evaluate frameworks using criteria such as:
@@ -473,6 +475,7 @@ Evaluate frameworks using criteria such as:
 - MCP support
 - Multi-agent support
 - Model-provider flexibility
+- Durable / resumable execution
 - Deployment model
 - Maintenance and ecosystem
 
@@ -487,9 +490,35 @@ Frameworks worth studying include:
 - Pydantic AI
 - smolagents
 
-## Planned Project: Framework Comparison Demo
+## Build
 
-Implement the same small task using a limited number of frameworks and compare developer experience rather than declaring a universal winner.
+### Framework Comparison Demo
+
+The working project compares three representative approaches:
+
+- **OpenAI Agents SDK** for a lightweight agent runtime centered around agents, tools, handoffs, guardrails, sessions, and tracing
+- **LangGraph** for low-level graph orchestration, explicit state, durable execution, and human-in-the-loop control
+- **Pydantic AI** for typed agent development, structured outputs, broad provider support, tools, MCP, and local test models
+
+All three are compared against the same support-triage task and the same normalized capability vocabulary.
+
+The project includes:
+
+- a deterministic common task
+- validated framework profiles
+- a capability matrix
+- requirement-based filtering
+- preference-based ranking
+- architecture mappings for the same task
+- official documentation links
+- reference implementation sketches
+- explicit notes about what cannot be compared fairly without a real model/provider
+
+**Project:** [07-framework-comparison-demo](./projects/07-framework-comparison-demo/)
+
+> **Zero-cost core:** The comparison harness uses only Python's standard library. It does not install framework packages, call an LLM, or require an API key.
+
+> **Important:** Framework APIs evolve. The bundled profiles were checked against official documentation on **August 29, 2026**. Re-check official docs before copying reference snippets into production code.
 
 ## Further Resources
 
@@ -499,7 +528,7 @@ For a broader collection of frameworks, tutorials, courses, MCP resources, resea
 
 ## Outcome
 
-Understand how to choose a framework based on system requirements.
+Understand how to choose a framework based on system requirements, control-flow needs, testing strategy, provider constraints, and operational tradeoffs instead of declaring a universal winner.
 
 ---
 
@@ -812,21 +841,37 @@ agentic-ai-learning-roadmap/
     │   ├── test_memory_assistant.py
     │   ├── requirements.txt
     │   └── sample_session.md
-    └── 06-agent-pattern-examples/
+    ├── 06-agent-pattern-examples/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── test_agent_patterns.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   └── patterns/
+    │       ├── __init__.py
+    │       ├── reflection.py
+    │       ├── planning.py
+    │       ├── routing.py
+    │       ├── evaluator_optimizer.py
+    │       ├── parallelization.py
+    │       └── human_in_loop.py
+    └── 07-framework-comparison-demo/
         ├── README.md
         ├── main.py
         ├── models.py
-        ├── test_agent_patterns.py
+        ├── profiles.py
+        ├── comparison.py
+        ├── common_task.py
+        ├── test_framework_comparison.py
         ├── requirements.txt
         ├── sample_session.md
-        └── patterns/
-            ├── __init__.py
-            ├── reflection.py
-            ├── planning.py
-            ├── routing.py
-            ├── evaluator_optimizer.py
-            ├── parallelization.py
-            └── human_in_loop.py
+        ├── data/
+        │   └── frameworks.json
+        └── reference/
+            ├── openai_agents_sdk.md
+            ├── langgraph.md
+            └── pydantic_ai.md
 ```
 
 Future project directories will be added only when they contain usable implementations.
