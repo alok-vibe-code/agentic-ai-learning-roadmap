@@ -1,0 +1,26 @@
+{
+  "task": "Create a plan for researching the Model Context Protocol.",
+  "objective": "Produce an evidence-based overview of MCP architecture, ecosystem, and practical implementation considerations.",
+  "category": "research",
+  "priority": "medium",
+  "assumptions": [
+    "The research should prioritize primary and official sources."
+  ],
+  "steps": [
+    "Define the research questions.",
+    "Review the official protocol documentation.",
+    "Identify reference implementations and ecosystem tools.",
+    "Compare capabilities and trust boundaries.",
+    "Summarize findings with source links."
+  ],
+  "risks": [
+    "Relying on outdated third-party explanations.",
+    "Mixing protocol capabilities with vendor-specific features."
+  ],
+  "success_criteria": [
+    "Major MCP concepts are explained accurately.",
+    "Claims are traceable to reliable sources.",
+    "Implementation considerations are clearly separated from protocol requirements."
+  ],
+  "next_action": "List the primary research questions before collecting sources."
+}
