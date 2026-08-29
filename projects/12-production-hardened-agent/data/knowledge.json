@@ -1,0 +1,12 @@
+{
+  "retry": "Retries are appropriate for transient failures when operations are safe to repeat and attempts are bounded.",
+  "backoff": "Exponential backoff increases the delay between retries. Jitter reduces synchronized retry storms.",
+  "timeout": "Timeouts bound how long a dependency attempt may consume resources. Overall request deadlines bound the complete request.",
+  "circuit-breaker": "Circuit breakers stop repeated calls to an unhealthy dependency, then probe recovery after a cooldown.",
+  "fallback": "Fallback providers can preserve availability, but degraded responses should be observable and explicitly marked.",
+  "cache": "Fresh caches reduce latency and dependency load. Stale-if-error can preserve partial availability during outages.",
+  "rate-limit": "Rate limiting protects shared capacity and prevents one caller from exhausting the service.",
+  "observability": "Structured logs, trace IDs, metrics, and health checks make failures diagnosable.",
+  "budget": "Attempt, token, and cost budgets bound resource consumption even when retries and fallbacks are enabled.",
+  "graceful-degradation": "Graceful degradation returns a bounded, explicit degraded result instead of crashing or inventing success."
+}
