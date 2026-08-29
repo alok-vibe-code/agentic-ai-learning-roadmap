@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, and 4 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, 4, and 5 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/)
 
 ## Learning Path
 
@@ -87,7 +87,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 2 | Tool calling | [Tool Calling Agent](./projects/02-tool-calling-agent/) | ✅ Available |
 | 3 | Agent loops | [Research Agent](./projects/03-research-agent/) | ✅ Available |
 | 4 | Retrieval | [Agentic RAG](./projects/04-agentic-rag/) | ✅ Available |
-| 5 | Memory | Memory-Aware Assistant | 🔜 Planned |
+| 5 | Memory | [Memory-Aware Assistant](./projects/05-memory-aware-assistant/) | ✅ Available |
 | 6 | Agent patterns | Agent Pattern Examples | 🔜 Planned |
 | 7 | Frameworks | Framework Comparison Demo | 🔜 Planned |
 | 8 | MCP | SEO MCP Server | 🔜 Planned |
@@ -321,29 +321,78 @@ Understand RAG as a controlled agent decision: determine whether retrieval is ne
 
 # Week 5: Agent Memory
 
+Memory can improve continuity, but persistent state also creates privacy, security, staleness, and deletion problems.
+
 ## Learn
 
 - Working / short-term memory
-- Long-term memory
-- Semantic memory
-- Episodic memory
-- Memory retrieval
-- Summarization
-- Expiration
-- Deletion
+- Persistent / long-term memory
+- Semantic-style preference memory
+- Episodic-style event memory
+- Explicit memory writes
+- Retrieval
+- Updates and deduplication
+- Expiration / TTL
+- Deletion and clearing
+- Storage limits
 - Privacy boundaries
+- Sensitive-data rejection
+- Data minimization
 
-## Planned Project: Memory-Aware Assistant
+## Build
 
-The assistant will retain selected non-sensitive preferences and retrieve them in later sessions.
+### Memory-Aware Assistant
 
-Important principle:
+This project demonstrates a local memory system that stores only **explicitly requested, non-sensitive memories**.
 
-> Memory should be intentional. Do not persist everything merely because it can be stored.
+The assistant separates temporary session state from persistent memory:
+
+```text
+User request
+    ↓
+Should this be remembered?
+    ↓
+Only explicit "remember" action
+    ↓
+Validate category + content
+    ↓
+Sensitive?
+  ↙          ↘
+Yes           No
+ ↓             ↓
+Reject      Save / update
+                ↓
+          Optional expiration
+                ↓
+         Retrieve in later run
+                ↓
+      User can forget / clear
+```
+
+Working memory exists only for the current process. Persistent memory is stored in a local JSON file outside the repository so learners do not accidentally commit runtime memory to Git.
+
+The implementation includes:
+
+- allowlisted memory categories
+- sensitive-data screening
+- value-length and store-size limits
+- explicit upsert behavior
+- TTL-based expiration
+- lexical retrieval
+- delete and clear operations
+- atomic JSON writes
+- corrupted-store detection
+- no automatic memory capture
+
+**Project:** [05-memory-aware-assistant](./projects/05-memory-aware-assistant/)
+
+> **Zero-cost mode:** Python standard library only. No API key, database account, or paid service is required.
+
+> **Important:** The demo store is plain JSON, not encrypted. It intentionally rejects obvious sensitive values, but the detector is not a substitute for a real data-classification or secrets-management system.
 
 ## Outcome
 
-Understand when persistent state improves an agent and when it introduces privacy, security, and quality problems.
+Understand that useful agent memory is not simply "save everything." A reliable memory system needs explicit write rules, retrieval boundaries, expiration, deletion, minimization, and user control.
 
 ---
 
@@ -713,18 +762,28 @@ agentic-ai-learning-roadmap/
     │   ├── sample_session.md
     │   └── data/
     │       └── sources.json
-    └── 04-agentic-rag/
+    ├── 04-agentic-rag/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── chunking.py
+    │   ├── vector_store.py
+    │   ├── agentic_rag.py
+    │   ├── test_agentic_rag.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   └── data/
+    │       └── knowledge_base.json
+    └── 05-memory-aware-assistant/
         ├── README.md
         ├── main.py
         ├── models.py
-        ├── chunking.py
-        ├── vector_store.py
-        ├── agentic_rag.py
-        ├── test_agentic_rag.py
+        ├── policy.py
+        ├── store.py
+        ├── assistant.py
+        ├── test_memory_assistant.py
         ├── requirements.txt
-        ├── sample_session.md
-        └── data/
-            └── knowledge_base.json
+        └── sample_session.md
 ```
 
 Future project directories will be added only when they contain usable implementations.
