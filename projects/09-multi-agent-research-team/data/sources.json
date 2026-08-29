@@ -1,0 +1,122 @@
+[
+  {
+    "id": "S1",
+    "title": "Role Specialization in Agent Teams",
+    "url": "local://multi-agent/role-specialization",
+    "tags": [
+      "multi-agent",
+      "roles",
+      "specialization",
+      "delegation"
+    ],
+    "content": "Role specialization can make a multi-agent workflow easier to inspect because each role has a narrow responsibility. A planner can decompose the problem while researchers collect evidence and a reviewer checks the final output. Specialization is useful only when the boundaries between roles are clear enough to justify the coordination cost."
+  },
+  {
+    "id": "S2",
+    "title": "Shared State and Coordination",
+    "url": "local://multi-agent/shared-state",
+    "tags": [
+      "multi-agent",
+      "shared-state",
+      "coordination",
+      "messages"
+    ],
+    "content": "A multi-agent system needs an explicit way to share task state, evidence, failures, and decisions. Unstructured agent-to-agent messages can make debugging difficult, while typed shared state makes handoffs easier to trace. The coordinator should own state transitions instead of allowing every role to mutate everything."
+  },
+  {
+    "id": "S3",
+    "title": "Failure Handling in Multi-Agent Workflows",
+    "url": "local://multi-agent/failures",
+    "tags": [
+      "multi-agent",
+      "failure",
+      "reliability",
+      "retries"
+    ],
+    "content": "More agents create more possible failure points, including worker errors, incomplete handoffs, duplicated work, and conflicting conclusions. Independent research tasks can often fail in isolation if the coordinator records the failure and enough other evidence remains. Critical stages such as fact checking or final review should fail closed instead of silently approving incomplete work."
+  },
+  {
+    "id": "S4",
+    "title": "Single-Agent Baseline",
+    "url": "local://agents/single-agent-baseline",
+    "tags": [
+      "single-agent",
+      "simplicity",
+      "baseline",
+      "complexity"
+    ],
+    "content": "A single-agent workflow has fewer coordination boundaries and is often easier to test, operate, and debug. For small questions or tightly coupled tasks, splitting the work across several agents may add overhead without improving the result. A multi-agent design should be compared against a simpler baseline rather than assumed to be better."
+  },
+  {
+    "id": "S5",
+    "title": "Parallel Research Tasks",
+    "url": "local://multi-agent/parallel-research",
+    "tags": [
+      "multi-agent",
+      "parallel",
+      "research",
+      "latency"
+    ],
+    "content": "Independent research subtasks can be executed in parallel when they do not depend on one another. Parallel work can reduce elapsed research time, but it may also produce overlapping evidence that must be deduplicated. Parallelization is most useful when the task can be decomposed into genuinely independent facets."
+  },
+  {
+    "id": "S6",
+    "title": "Evidence and Fact Checking",
+    "url": "local://research/fact-checking",
+    "tags": [
+      "research",
+      "evidence",
+      "fact-checking",
+      "citations"
+    ],
+    "content": "Research claims should remain connected to source evidence throughout the workflow. A fact-checking stage can reject claims whose cited snippet is missing from the referenced source. The writer should synthesize only verified claims, and citations should remain visible in the final report."
+  },
+  {
+    "id": "S7",
+    "title": "Coordination Cost",
+    "url": "local://multi-agent/coordination-cost",
+    "tags": [
+      "multi-agent",
+      "cost",
+      "coordination",
+      "complexity"
+    ],
+    "content": "Coordination is not free even when model calls are free. Every delegation, message, shared-state transition, retry, and review stage increases implementation and operational complexity. Teams should measure whether specialization improves coverage or control enough to offset that overhead."
+  },
+  {
+    "id": "S8",
+    "title": "When Multi-Agent Systems Are Worth Using",
+    "url": "local://multi-agent/when-to-use",
+    "tags": [
+      "multi-agent",
+      "decision",
+      "architecture",
+      "tradeoffs"
+    ],
+    "content": "Multi-agent systems are most defensible when work has separable responsibilities, independent subtasks, or review boundaries that benefit from isolation. They are less compelling when one short workflow can solve the task with the same quality and fewer moving parts. Architecture should follow task structure rather than the popularity of a multi-agent pattern."
+  },
+  {
+    "id": "S9",
+    "title": "Research Planning and Coverage",
+    "url": "local://research/planning",
+    "tags": [
+      "research",
+      "planning",
+      "coverage",
+      "facets"
+    ],
+    "content": "A research plan improves coverage by turning a broad question into explicit facets that can be checked independently. Typical facets include architecture, benefits, risks, reliability, cost, implementation, and decision criteria. Coverage should be measured against the plan rather than inferred from report length."
+  },
+  {
+    "id": "S10",
+    "title": "Review Gates and Approval",
+    "url": "local://research/review-gates",
+    "tags": [
+      "review",
+      "quality",
+      "approval",
+      "multi-agent"
+    ],
+    "content": "A reviewer should evaluate concrete acceptance criteria rather than merely restating the draft. Useful checks include task coverage, verified claims, citation presence, and unresolved failures. If critical requirements are missing, the workflow should return a review failure instead of presenting the draft as approved."
+  }
+]
