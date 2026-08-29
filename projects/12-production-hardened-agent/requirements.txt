@@ -1,0 +1,2 @@
+# Python 3.10+ standard library only.
+# No model API, API key, network access, or paid service required.

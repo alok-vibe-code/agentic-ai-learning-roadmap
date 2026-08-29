@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, and 11 include runnable projects. Week 12 remains planned until a working implementation is added.
+> **Current release:** All 12 weeks now include runnable projects. The roadmap progresses from structured outputs and tool calling through retrieval, memory, multi-agent systems, evaluation, security, and production hardening.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/) · [Week 9 - Multi-Agent Research Team](./projects/09-multi-agent-research-team/) · [Week 10 - Agent Evaluation Harness](./projects/10-agent-evaluation-harness/) · [Week 11 - Secure Approval-Based Agent](./projects/11-secure-approval-based-agent/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/) · [Week 9 - Multi-Agent Research Team](./projects/09-multi-agent-research-team/) · [Week 10 - Agent Evaluation Harness](./projects/10-agent-evaluation-harness/) · [Week 11 - Secure Approval-Based Agent](./projects/11-secure-approval-based-agent/) · [Week 12 - Production-Hardened Agent](./projects/12-production-hardened-agent/)
 
 ## Learning Path
 
@@ -94,7 +94,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 9 | Multi-agent systems | [Multi-Agent Research Team](./projects/09-multi-agent-research-team/) | ✅ Available |
 | 10 | Evaluation | [Agent Evaluation Harness](./projects/10-agent-evaluation-harness/) | ✅ Available |
 | 11 | Security | [Secure Approval-Based Agent](./projects/11-secure-approval-based-agent/) | ✅ Available |
-| 12 | Production | Production-Hardened Agent | 🔜 Planned |
+| 12 | Production | [Production-Hardened Agent](./projects/12-production-hardened-agent/) | ✅ Available |
 
 ---
 
@@ -949,32 +949,96 @@ Learn to treat tools as security boundaries, apply least privilege, require huma
 
 # Week 12: Production-Ready Agents
 
+Production hardening is about operating an agent predictably when dependencies are slow, unavailable, expensive, overloaded, or partially failing.
+
 ## Learn
 
 - Retries
 - Exponential backoff
-- Timeouts
+- Jitter
+- Per-attempt timeouts
+- Request deadlines
 - Circuit breakers
-- Model fallbacks
-- Caching
+- Provider fallbacks
+- Fresh and stale caching
 - Rate limits
 - Structured logging
 - Trace IDs
-- Cost controls
-- Configuration
+- Metrics
+- Cost and token budgets
+- Configuration validation
+- Health checks
+- Idempotent operational patterns
 - Testing
-- Deployment
+- Deployment boundaries
 - Graceful degradation
 
-## Planned Project: Production-Hardened Agent
+## Build
 
-An earlier project will be upgraded with production-oriented safeguards instead of building another unrelated demo.
+### Production-Hardened Agent
 
-Use the [Production Readiness Checklist](./checklists/production-readiness.md) while completing this stage.
+This project upgrades a research-style local agent with an explicit reliability layer instead of introducing another unrelated prototype.
+
+The runtime separates:
+
+```text
+Request
+   ↓
+Validation
+   ↓
+Rate limit
+   ↓
+Fresh cache?
+   ├── Yes → return cached result
+   └── No
+        ↓
+Request budget + deadline
+        ↓
+Primary provider
+   ├── transient failure → bounded retry + exponential backoff
+   ├── timeout → bounded retry
+   ├── repeated failure → circuit opens
+   └── success → cache + return
+        ↓
+Fallback provider
+   ├── success → degraded success + cache
+   └── failure
+        ↓
+Stale cache available?
+   ├── Yes → stale-if-error response
+   └── No → graceful unavailable response
+```
+
+The project includes:
+
+- bounded retry policies
+- exponential backoff with configurable jitter
+- per-attempt timeout contracts
+- overall request deadlines
+- CLOSED / OPEN / HALF_OPEN circuit-breaker states
+- primary-to-fallback provider routing
+- TTL cache with stale-if-error support
+- per-principal sliding-window rate limiting
+- request-level attempt, token, and simulated-cost budgets
+- JSON structured logs
+- trace IDs propagated across attempts
+- in-memory metrics counters
+- health snapshots
+- validated JSON configuration
+- deterministic failure-injection scenarios
+- graceful degradation when dependencies fail
+
+**Project:** [12-production-hardened-agent](./projects/12-production-hardened-agent/)
+
+> **Zero-cost mode:** All providers are deterministic local simulators. No model API, network access, API key, or paid service is required.
+
+> **Timeout note:** The local provider adapter honors a timeout contract deterministically. Production network/model clients should additionally enforce transport-level cancellation and connection/read timeouts.
+
+Use the [Production Readiness Checklist](./checklists/production-readiness.md) while reviewing the project.
 
 ## Outcome
 
-Understand the difference between a prototype that works and an agent system that can be operated responsibly.
+Understand the difference between a prototype that works in the happy path and an agent system designed to remain observable, bounded, and useful during partial failure.
 
 ---
 
@@ -1162,24 +1226,46 @@ agentic-ai-learning-roadmap/
     │   └── data/
     │       ├── eval_cases.json
     │       └── baseline.json
-    └── 11-secure-approval-based-agent/
+    ├── 11-secure-approval-based-agent/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── guardrails.py
+    │   ├── policy.py
+    │   ├── planner.py
+    │   ├── approvals.py
+    │   ├── authorization.py
+    │   ├── rate_limit.py
+    │   ├── audit.py
+    │   ├── executor.py
+    │   ├── secure_agent.py
+    │   ├── test_secure_agent.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   └── data/
+    │       ├── policy.json
+    │       └── knowledge.json
+    └── 12-production-hardened-agent/
         ├── README.md
         ├── main.py
         ├── models.py
-        ├── guardrails.py
-        ├── policy.py
-        ├── planner.py
-        ├── approvals.py
-        ├── authorization.py
+        ├── errors.py
+        ├── config.py
+        ├── circuit_breaker.py
+        ├── cache.py
         ├── rate_limit.py
-        ├── audit.py
-        ├── executor.py
-        ├── secure_agent.py
-        ├── test_secure_agent.py
+        ├── budget.py
+        ├── telemetry.py
+        ├── service.py
+        ├── resilience.py
+        ├── agent.py
+        ├── health.py
+        ├── test_production_agent.py
         ├── requirements.txt
         ├── sample_session.md
+        ├── config/
+        │   └── default.json
         └── data/
-            ├── policy.json
             └── knowledge.json
 ```
 

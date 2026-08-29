@@ -1,0 +1,38 @@
+{
+  "request": {
+    "max_query_chars": 1000,
+    "deadline_ms": 1500
+  },
+  "retry": {
+    "max_attempts": 3,
+    "base_backoff_ms": 20,
+    "max_backoff_ms": 100,
+    "jitter_ratio": 0.2
+  },
+  "timeout": {
+    "attempt_timeout_ms": 250
+  },
+  "circuit_breaker": {
+    "failure_threshold": 3,
+    "recovery_timeout_ms": 5000,
+    "half_open_max_calls": 1
+  },
+  "cache": {
+    "ttl_ms": 30000,
+    "stale_ttl_ms": 120000,
+    "max_entries": 100
+  },
+  "rate_limit": {
+    "max_requests": 20,
+    "window_ms": 60000
+  },
+  "budget": {
+    "max_provider_attempts": 5,
+    "max_estimated_tokens": 2500,
+    "max_simulated_cost_usd": 0.02
+  },
+  "providers": {
+    "primary": "mock-primary",
+    "fallback": "local-fallback"
+  }
+}
