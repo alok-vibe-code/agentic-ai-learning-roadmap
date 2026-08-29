@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, 4, and 5 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, 4, 5, and 6 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/)
 
 ## Learning Path
 
@@ -88,7 +88,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 3 | Agent loops | [Research Agent](./projects/03-research-agent/) | ✅ Available |
 | 4 | Retrieval | [Agentic RAG](./projects/04-agentic-rag/) | ✅ Available |
 | 5 | Memory | [Memory-Aware Assistant](./projects/05-memory-aware-assistant/) | ✅ Available |
-| 6 | Agent patterns | Agent Pattern Examples | 🔜 Planned |
+| 6 | Agent patterns | [Agent Pattern Examples](./projects/06-agent-pattern-examples/) | ✅ Available |
 | 7 | Frameworks | Framework Comparison Demo | 🔜 Planned |
 | 8 | MCP | SEO MCP Server | 🔜 Planned |
 | 9 | Multi-agent systems | Multi-Agent Research Team | 🔜 Planned |
@@ -398,6 +398,10 @@ Understand that useful agent memory is not simply "save everything." A reliable 
 
 # Week 6: Agentic Design Patterns
 
+Week 6 shifts from individual capabilities to **control-flow patterns**.
+
+The goal is not to make every task autonomous. It is to recognize the smallest coordination pattern that solves the problem reliably.
+
 ## Learn
 
 - Reflection
@@ -406,25 +410,49 @@ Understand that useful agent memory is not simply "save everything." A reliable 
 - Parallelization
 - Evaluator-optimizer
 - Human-in-the-loop
+- Bounded iteration
 - Deterministic workflows vs agentic decisions
+- Failure isolation
+- Approval boundaries
+- Pattern selection and composition
 
-## Planned Project: Agent Pattern Examples
+## Build
 
-Small independent examples:
+### Agent Pattern Examples
+
+This project is a small pattern lab containing six independent, runnable examples:
 
 ```text
-06-agent-patterns/
-├── reflection/
-├── planning/
-├── routing/
-├── evaluator-optimizer/
-├── parallelization/
-└── human-in-the-loop/
+06-agent-pattern-examples/
+└── patterns/
+    ├── reflection.py
+    ├── planning.py
+    ├── routing.py
+    ├── evaluator_optimizer.py
+    ├── parallelization.py
+    └── human_in_loop.py
 ```
+
+Each example exposes its state and stopping conditions instead of hiding behavior behind a framework.
+
+The patterns demonstrate:
+
+- **Reflection:** critique and revise a draft within a bounded loop
+- **Planning:** decompose a goal into ordered steps with dependencies
+- **Routing:** choose the smallest specialist for a request and fall back safely
+- **Parallelization:** execute independent work concurrently while isolating failures
+- **Evaluator-optimizer:** improve a candidate until a measurable quality threshold or iteration limit is reached
+- **Human-in-the-loop:** automatically allow low-risk actions while requiring explicit approval for sensitive actions
+
+A shared CLI lets learners run one pattern or inspect all six.
+
+**Project:** [06-agent-pattern-examples](./projects/06-agent-pattern-examples/)
+
+> **Zero-cost mode:** Python standard library only. No API key, framework, hosted service, or paid dependency is required.
 
 ## Outcome
 
-Learn to select the smallest pattern that solves the problem instead of defaulting to a complex autonomous architecture.
+Learn to choose and combine agent patterns based on the task's control-flow requirements rather than defaulting to a large autonomous agent.
 
 ---
 
@@ -774,16 +802,31 @@ agentic-ai-learning-roadmap/
     │   ├── sample_session.md
     │   └── data/
     │       └── knowledge_base.json
-    └── 05-memory-aware-assistant/
+    ├── 05-memory-aware-assistant/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── policy.py
+    │   ├── store.py
+    │   ├── assistant.py
+    │   ├── test_memory_assistant.py
+    │   ├── requirements.txt
+    │   └── sample_session.md
+    └── 06-agent-pattern-examples/
         ├── README.md
         ├── main.py
         ├── models.py
-        ├── policy.py
-        ├── store.py
-        ├── assistant.py
-        ├── test_memory_assistant.py
+        ├── test_agent_patterns.py
         ├── requirements.txt
-        └── sample_session.md
+        ├── sample_session.md
+        └── patterns/
+            ├── __init__.py
+            ├── reflection.py
+            ├── planning.py
+            ├── routing.py
+            ├── evaluator_optimizer.py
+            ├── parallelization.py
+            └── human_in_loop.py
 ```
 
 Future project directories will be added only when they contain usable implementations.

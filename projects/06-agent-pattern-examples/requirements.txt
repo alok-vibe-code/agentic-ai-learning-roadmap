@@ -1,0 +1,2 @@
+# No third-party packages are required.
+# Project 06 uses Python 3.10+ standard library only.
