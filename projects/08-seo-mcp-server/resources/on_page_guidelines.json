@@ -1,0 +1,46 @@
+{
+  "verified_date": "2026-08-29",
+  "purpose": "Educational on-page SEO review heuristics, not ranking guarantees.",
+  "checks": {
+    "title": {
+      "review_range_characters": [
+        30,
+        60
+      ],
+      "caveat": "Search-result display and rewriting vary."
+    },
+    "meta_description": {
+      "review_range_characters": [
+        120,
+        160
+      ],
+      "caveat": "Search engines may rewrite snippets."
+    },
+    "headings": {
+      "review": [
+        "Check that an H1 exists.",
+        "Review multiple H1s in context rather than treating them as an automatic technical failure.",
+        "Review large heading-level jumps for document structure."
+      ]
+    },
+    "canonical": {
+      "review": [
+        "Check for a canonical link.",
+        "Investigate multiple canonical declarations.",
+        "Review cross-domain canonicals intentionally."
+      ]
+    },
+    "robots_meta": {
+      "review": [
+        "Flag noindex for confirmation.",
+        "Remember that X-Robots-Tag HTTP headers are not visible in HTML."
+      ]
+    },
+    "internal_links": {
+      "review": [
+        "Classify same-host HTTP(S) links as internal.",
+        "Do not treat mailto, tel, javascript, data, or fragment-only links as internal pages."
+      ]
+    }
+  }
+}
