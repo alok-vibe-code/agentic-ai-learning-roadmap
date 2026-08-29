@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, and 8 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, 8, and 9 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/) · [Week 9 - Multi-Agent Research Team](./projects/09-multi-agent-research-team/)
 
 ## Learning Path
 
@@ -91,7 +91,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 6 | Agent patterns | [Agent Pattern Examples](./projects/06-agent-pattern-examples/) | ✅ Available |
 | 7 | Frameworks | [Framework Comparison Demo](./projects/07-framework-comparison-demo/) | ✅ Available |
 | 8 | MCP | [SEO MCP Server](./projects/08-seo-mcp-server/) | ✅ Available |
-| 9 | Multi-agent systems | Multi-Agent Research Team | 🔜 Planned |
+| 9 | Multi-agent systems | [Multi-Agent Research Team](./projects/09-multi-agent-research-team/) | ✅ Available |
 | 10 | Evaluation | Agent Evaluation Harness | 🔜 Planned |
 | 11 | Security | Secure Approval-Based Agent | 🔜 Planned |
 | 12 | Production | Production-Hardened Agent | 🔜 Planned |
@@ -611,39 +611,97 @@ Understand how MCP standardizes access to tools, resources, and prompts while pr
 
 # Week 9: Multi-Agent Systems
 
+Multi-agent systems add coordination as a first-class engineering problem.
+
+The goal is not to split one prompt into several classes and call the result a team. Week 9 makes delegation, shared state, evidence handoffs, review boundaries, and coordination overhead visible.
+
 ## Learn
 
 - Specialized agents
-- Supervisors
+- Supervisors / coordinators
 - Delegation
 - Handoffs
 - Routing
 - Shared state
-- Communication
+- Agent-to-agent messages
+- Parallel work
+- Evidence provenance
+- Failure isolation
 - Failure propagation
+- Review gates
+- Coordination overhead
 - When not to use multiple agents
 
-## Planned Project: Multi-Agent Research Team
+## Build
 
-Possible roles:
+### Multi-Agent Research Team
+
+The working project uses five specialized roles:
 
 ```text
+Question
+   ↓
 Planner
    ↓
-Researcher
+Research tasks
+   ↓
+Researcher workers
+   ↓
+Evidence
    ↓
 Fact Checker
    ↓
+Verified claims
+   ↓
 Writer
    ↓
+Draft report
+   ↓
 Reviewer
+   ↓
+Approved report
 ```
 
-The project will also compare this approach with a simpler single-agent implementation.
+A coordinator owns the shared state and records explicit messages between roles.
+
+Research tasks can run in parallel because each worker reads from the same local educational corpus without modifying external systems.
+
+The project also includes a **single-agent baseline** using the same corpus and search function.
+
+That comparison exposes the tradeoff:
+
+```text
+Multi-agent
++ role separation
++ task-level coverage
++ explicit review boundaries
+- more coordination
+- more messages
+- more failure surfaces
+
+Single-agent
++ simpler execution
++ lower coordination overhead
+- less explicit specialization
+- fewer independent review boundaries
+```
+
+The CLI can run:
+
+- the multi-agent team
+- the single-agent baseline
+- a side-by-side comparison
+- the bundled source list
+
+**Project:** [09-multi-agent-research-team](./projects/09-multi-agent-research-team/)
+
+> **Zero-cost mode:** Python standard library only. The project uses a bundled local research corpus and makes no model or network calls.
+
+> **Important:** The agents are deliberately deterministic. This lets learners inspect coordination mechanics before adding an LLM to each role.
 
 ## Outcome
 
-Understand that multi-agent systems are useful only when role separation creates enough value to justify additional complexity.
+Understand when specialized roles and explicit review boundaries justify multi-agent complexity, and when a simpler single-agent workflow is the better engineering choice.
 
 ---
 
@@ -901,21 +959,41 @@ agentic-ai-learning-roadmap/
     │       ├── openai_agents_sdk.md
     │       ├── langgraph.md
     │       └── pydantic_ai.md
-    └── 08-seo-mcp-server/
+    ├── 08-seo-mcp-server/
+    │   ├── README.md
+    │   ├── server.py
+    │   ├── seo_core.py
+    │   ├── models.py
+    │   ├── test_seo_core.py
+    │   ├── test_mcp_surface.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   ├── resources/
+    │   │   └── on_page_guidelines.json
+    │   ├── docs/
+    │   │   └── security.md
+    │   └── examples/
+    │       └── sample_page.html
+    └── 09-multi-agent-research-team/
         ├── README.md
-        ├── server.py
-        ├── seo_core.py
+        ├── main.py
         ├── models.py
-        ├── test_seo_core.py
-        ├── test_mcp_surface.py
+        ├── search.py
+        ├── coordinator.py
+        ├── single_agent.py
+        ├── comparison.py
+        ├── test_multi_agent_team.py
         ├── requirements.txt
         ├── sample_session.md
-        ├── resources/
-        │   └── on_page_guidelines.json
-        ├── docs/
-        │   └── security.md
-        └── examples/
-            └── sample_page.html
+        ├── data/
+        │   └── sources.json
+        └── agents/
+            ├── __init__.py
+            ├── planner.py
+            ├── researcher.py
+            ├── fact_checker.py
+            ├── writer.py
+            └── reviewer.py
 ```
 
 Future project directories will be added only when they contain usable implementations.
