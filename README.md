@@ -90,7 +90,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 5 | Memory | [Memory-Aware Assistant](./projects/05-memory-aware-assistant/) | ✅ Available |
 | 6 | Agent patterns | [Agent Pattern Examples](./projects/06-agent-pattern-examples/) | ✅ Available |
 | 7 | Frameworks | [Framework Comparison Demo](./projects/07-framework-comparison-demo/) | ✅ Available |
-| 8 | MCP | SEO MCP Server | 🔜 Planned |
+| 8 | MCP | [SEO MCP Server](./projects/08-seo-mcp-server/) | ✅ Available |
 | 9 | Multi-agent systems | Multi-Agent Research Team | 🔜 Planned |
 | 10 | Evaluation | Agent Evaluation Harness | 🔜 Planned |
 | 11 | Security | Secure Approval-Based Agent | 🔜 Planned |
