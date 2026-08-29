@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, and 3 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, and 4 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/)
 
 ## Learning Path
 
@@ -86,7 +86,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 1 | Structured LLM outputs | Structured LLM Assistant | ✅ Available |
 | 2 | Tool calling | [Tool Calling Agent](./projects/02-tool-calling-agent/) | ✅ Available |
 | 3 | Agent loops | [Research Agent](./projects/03-research-agent/) | ✅ Available |
-| 4 | Retrieval | Agentic RAG | 🔜 Planned |
+| 4 | Retrieval | [Agentic RAG](./projects/04-agentic-rag/) | ✅ Available |
 | 5 | Memory | Memory-Aware Assistant | 🔜 Planned |
 | 6 | Agent patterns | Agent Pattern Examples | 🔜 Planned |
 | 7 | Frameworks | Framework Comparison Demo | 🔜 Planned |
@@ -262,20 +262,29 @@ Build and inspect a bounded research agent that plans, acts, updates state, eval
 
 # Week 4: Retrieval-Augmented Generation and Agentic RAG
 
+Week 4 moves from general research loops into retrieval-centered agent behavior.
+
 ## Learn
 
-- Embeddings
 - Chunking
-- Semantic retrieval
+- Sparse and dense retrieval concepts
+- Embeddings
 - Vector stores
+- Cosine similarity
 - Grounding
 - Query rewriting
 - Retrieval quality
+- Evidence sufficiency
+- Citation and abstention
 - RAG vs Agentic RAG
 
-## Planned Project: Agentic RAG
+## Build
 
-The agent should decide whether retrieval is needed and whether the retrieved evidence is sufficient.
+### Agentic RAG
+
+This project runs a complete retrieval loop without requiring an API key.
+
+It uses a bundled knowledge base and a local TF-IDF vector store to demonstrate the mechanics of retrieval. The agent decides whether retrieval is needed, rewrites queries, retrieves relevant chunks, evaluates evidence quality, retries when necessary, and answers only from collected context.
 
 ```text
 Question
@@ -284,18 +293,29 @@ Need retrieval?
   ↙        ↘
 No         Yes
 ↓           ↓
-Answer    Retrieve
-            ↓
-      Evidence sufficient?
-        ↙          ↘
-      Yes           No
-       ↓             ↓
-     Answer      Search again
+Direct     Rewrite query
+response        ↓
+             Retrieve
+                ↓
+         Evidence sufficient?
+           ↙          ↘
+         Yes           No
+          ↓             ↓
+      Grounded      Rewrite /
+       answer       search again
+          ↓             ↓
+       Citations ← bounded loop
 ```
+
+The implementation deliberately uses **TF-IDF sparse vectors rather than paid embedding APIs**. This keeps the project free and makes the retrieval math inspectable. A production implementation can replace the local vectorizer with neural embeddings without changing the agent-level control flow.
+
+**Project:** [04-agentic-rag](./projects/04-agentic-rag/)
+
+> **Zero-cost mode:** Python standard library only. No OpenAI API key, vector-database account, or paid service is required.
 
 ## Outcome
 
-Understand retrieval as an agent decision rather than an unconditional pipeline step.
+Understand RAG as a controlled agent decision: determine whether retrieval is necessary, inspect whether retrieved evidence is strong enough, retry when it is not, and abstain instead of inventing unsupported claims.
 
 ---
 
@@ -682,17 +702,29 @@ agentic-ai-learning-roadmap/
     │   ├── requirements.txt
     │   ├── .env.example
     │   └── sample_session.md
-    └── 03-research-agent/
+    ├── 03-research-agent/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── search.py
+    │   ├── research_agent.py
+    │   ├── test_research_agent.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   └── data/
+    │       └── sources.json
+    └── 04-agentic-rag/
         ├── README.md
         ├── main.py
         ├── models.py
-        ├── search.py
-        ├── research_agent.py
-        ├── test_research_agent.py
+        ├── chunking.py
+        ├── vector_store.py
+        ├── agentic_rag.py
+        ├── test_agentic_rag.py
         ├── requirements.txt
         ├── sample_session.md
         └── data/
-            └── sources.json
+            └── knowledge_base.json
 ```
 
 Future project directories will be added only when they contain usable implementations.

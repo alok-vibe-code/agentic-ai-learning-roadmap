@@ -1,0 +1,131 @@
+[
+  {
+    "id": "rag-foundations",
+    "title": "Retrieval-Augmented Generation Foundations",
+    "source_url": "https://arxiv.org/abs/2005.11401",
+    "tags": [
+      "rag",
+      "retrieval",
+      "generation",
+      "grounding",
+      "knowledge"
+    ],
+    "text": "Retrieval-Augmented Generation, commonly called RAG, combines a retrieval system with a generation system. A user question is used to retrieve relevant external knowledge, and the retrieved context is supplied to the answer-generation stage. The central goal is to ground an answer in information outside model parameters. Retrieval quality matters because irrelevant or incomplete context can lead to weak or unsupported answers. A conventional RAG pipeline often performs retrieval for every knowledge question using a predefined retrieval sequence."
+  },
+  {
+    "id": "agentic-rag",
+    "title": "Agentic RAG Control Flow",
+    "source_url": "https://langchain-ai.github.io/langgraph/tutorials/rag/langgraph_agentic_rag/",
+    "tags": [
+      "agentic-rag",
+      "rag",
+      "agent",
+      "retrieval",
+      "query-rewrite",
+      "evaluation"
+    ],
+    "text": "Agentic RAG adds decision points around retrieval. Instead of treating retrieval as a fixed unconditional step, an agent can decide whether a question needs retrieval, inspect retrieved evidence, rewrite the query when results are weak, retrieve again, and stop when evidence is sufficient or a step limit is reached. The important difference is control flow: retrieval becomes an action selected and evaluated by the agent. A robust agentic RAG workflow should also support abstention when available evidence cannot justify an answer."
+  },
+  {
+    "id": "chunking",
+    "title": "Chunking for Retrieval",
+    "source_url": "https://www.pinecone.io/learn/chunking-strategies/",
+    "tags": [
+      "chunking",
+      "retrieval",
+      "context",
+      "rag"
+    ],
+    "text": "Retrieval systems usually divide documents into smaller chunks before indexing them. Chunks that are too large can contain multiple unrelated topics and waste context. Chunks that are too small can lose important surrounding information. Overlap can preserve continuity across chunk boundaries, but excessive overlap creates duplicate retrieval results. Chunking should match the structure of the data and the questions the application expects to answer."
+  },
+  {
+    "id": "embeddings-vector-search",
+    "title": "Embeddings and Vector Retrieval",
+    "source_url": "https://platform.openai.com/docs/guides/embeddings",
+    "tags": [
+      "embeddings",
+      "vectors",
+      "semantic-search",
+      "cosine-similarity",
+      "retrieval"
+    ],
+    "text": "Embedding models map text into numeric vectors so semantically related pieces of text can be compared in vector space. Vector retrieval commonly ranks stored vectors using a similarity metric such as cosine similarity. Dense embeddings can match related ideas even when query and document wording differ. This project uses TF-IDF sparse vectors instead of neural embeddings so learners can inspect the retrieval implementation without a model API. The higher-level retrieve-rank-evaluate loop remains comparable."
+  },
+  {
+    "id": "tfidf",
+    "title": "TF-IDF Sparse Vector Retrieval",
+    "source_url": "https://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting",
+    "tags": [
+      "tfidf",
+      "vectors",
+      "sparse-retrieval",
+      "cosine-similarity",
+      "ranking"
+    ],
+    "text": "TF-IDF represents text with sparse term-weight vectors. Term frequency reflects how strongly a term appears in a chunk, while inverse document frequency gives more weight to terms that occur in fewer chunks. Cosine similarity can compare a query TF-IDF vector with stored chunk vectors. TF-IDF is lexical rather than truly semantic, but it is useful for teaching vectorization, ranking, and retrieval evaluation with no external service."
+  },
+  {
+    "id": "query-rewriting",
+    "title": "Query Rewriting in Retrieval Systems",
+    "source_url": "https://docs.llamaindex.ai/en/stable/examples/query_transformations/query_transform_cookbook/",
+    "tags": [
+      "query-rewrite",
+      "retrieval",
+      "agentic-rag",
+      "search-quality"
+    ],
+    "text": "A user's wording may not match terminology used by the knowledge base. Query rewriting creates an alternative retrieval query that preserves intent while adding useful domain terms, expanding abbreviations, or focusing on missing concepts. In an agentic retrieval loop, rewriting should happen for a reason, such as low similarity scores, insufficient coverage, or missing evidence. Rewriting should be bounded so an agent cannot search indefinitely."
+  },
+  {
+    "id": "grounding-citations",
+    "title": "Grounding, Citations, and Abstention",
+    "source_url": "https://www.anthropic.com/news/contextual-retrieval",
+    "tags": [
+      "grounding",
+      "citations",
+      "abstention",
+      "retrieval-quality",
+      "rag"
+    ],
+    "text": "A grounded answer should be supported by retrieved evidence. Citations make it possible to trace claims back to source chunks. When retrieved context does not support the question, a reliable system should state that the evidence is insufficient rather than fabricate an answer. Retrieval systems should distinguish between finding some text and finding evidence that is actually relevant enough to support the requested claim."
+  },
+  {
+    "id": "retrieval-evaluation",
+    "title": "Evaluating Retrieval Quality",
+    "source_url": "https://docs.ragas.io/",
+    "tags": [
+      "evaluation",
+      "retrieval-quality",
+      "rag",
+      "precision",
+      "recall"
+    ],
+    "text": "RAG quality depends on both retrieval and answer generation. Retrieval evaluation asks whether useful evidence appears near the top of results and whether irrelevant chunks are being returned. Useful measurements can include hit rate, precision, recall, ranking quality, context relevance, and groundedness. An agentic workflow can use simple online signals such as top similarity score, query-term coverage, and source diversity to decide whether another retrieval step is justified."
+  },
+  {
+    "id": "vector-stores",
+    "title": "Vector Store Responsibilities",
+    "source_url": "https://python.langchain.com/docs/concepts/vectorstores/",
+    "tags": [
+      "vector-store",
+      "vectors",
+      "retrieval",
+      "metadata",
+      "indexing"
+    ],
+    "text": "A vector store keeps vector representations together with document content and metadata so applications can search and retrieve relevant chunks. Production vector stores may provide indexing, filtering, persistence, scaling, hybrid search, and metadata queries. For learning purposes, an in-memory vector store can demonstrate the same basic interface: index chunks, vectorize a query, calculate similarity, rank results, and return metadata."
+  },
+  {
+    "id": "hybrid-retrieval",
+    "title": "Hybrid Retrieval",
+    "source_url": "https://www.elastic.co/what-is/hybrid-search",
+    "tags": [
+      "hybrid-search",
+      "retrieval",
+      "semantic-search",
+      "keyword-search",
+      "ranking"
+    ],
+    "text": "Hybrid retrieval combines complementary search signals, commonly lexical keyword matching and dense semantic similarity. Lexical retrieval is strong when exact terminology matters, while dense retrieval can connect related wording. Production systems may combine scores or rerank candidate results. The right retrieval strategy depends on the corpus, query types, latency constraints, and evaluation results."
+  }
+]
