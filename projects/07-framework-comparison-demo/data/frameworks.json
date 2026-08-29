@@ -1,0 +1,119 @@
+[
+  {
+    "id": "openai-agents-sdk",
+    "name": "OpenAI Agents SDK",
+    "kind": "agent-sdk",
+    "verified_date": "2026-08-29",
+    "docs_url": "https://openai.github.io/openai-agents-python/",
+    "install": "pip install openai-agents",
+    "runtime_note": "Normal model-backed runs require a configured model/provider. The official OpenAI quickstart uses OPENAI_API_KEY.",
+    "capabilities": {
+      "state_management": "native",
+      "tool_calling": "native",
+      "structured_outputs": "native",
+      "human_approval": "native",
+      "tracing": "native",
+      "mcp": "native",
+      "multi_agent": "native",
+      "provider_flexibility": "supported",
+      "durable_execution": "supported",
+      "offline_testing": "provider-dependent"
+    },
+    "task_mapping": {
+      "entry": "Agent + Runner",
+      "routing": "handoffs or agents-as-tools",
+      "tools": "function tools",
+      "state": "sessions / run context",
+      "approval": "human-in-the-loop tool approval",
+      "result": "RunResult / structured output"
+    },
+    "strengths": [
+      "Small set of agent primitives",
+      "Built-in tools, guardrails, handoffs, sessions, tracing, and MCP support",
+      "Python-first orchestration"
+    ],
+    "watch_items": [
+      "Default OpenAI model path requires API credentials and usage",
+      "Provider behavior can differ when using non-OpenAI models",
+      "Higher-level runtime means some loop behavior is managed for you"
+    ]
+  },
+  {
+    "id": "langgraph",
+    "name": "LangGraph",
+    "kind": "orchestration-framework",
+    "verified_date": "2026-08-29",
+    "docs_url": "https://docs.langchain.com/oss/python/langgraph/overview",
+    "install": "pip install -U langgraph",
+    "runtime_note": "Graphs can run deterministic local nodes without an LLM. Model and tool integrations are chosen separately.",
+    "capabilities": {
+      "state_management": "native",
+      "tool_calling": "integration",
+      "structured_outputs": "integration",
+      "human_approval": "native",
+      "tracing": "integration",
+      "mcp": "integration",
+      "multi_agent": "native",
+      "provider_flexibility": "strong",
+      "durable_execution": "native",
+      "offline_testing": "native"
+    },
+    "task_mapping": {
+      "entry": "StateGraph",
+      "routing": "conditional edges",
+      "tools": "nodes or model/tool integrations",
+      "state": "explicit graph state + persistence/checkpointing",
+      "approval": "interrupt / human-in-the-loop state transitions",
+      "result": "compiled graph state"
+    },
+    "strengths": [
+      "Fine-grained control over explicit state and control flow",
+      "Mixes deterministic and model-driven nodes",
+      "Durable execution and human-in-the-loop are core orchestration concepts"
+    ],
+    "watch_items": [
+      "Lower-level abstraction means more orchestration code is owned by the developer",
+      "Tool/model ergonomics often come from adjacent LangChain integrations",
+      "Tracing commonly uses LangSmith rather than being the graph runtime itself"
+    ]
+  },
+  {
+    "id": "pydantic-ai",
+    "name": "Pydantic AI",
+    "kind": "typed-agent-framework",
+    "verified_date": "2026-08-29",
+    "docs_url": "https://ai.pydantic.dev/",
+    "install": "pip install pydantic-ai",
+    "runtime_note": "Production model runs require a configured provider, but official testing guidance supports TestModel and FunctionModel to avoid live model calls.",
+    "capabilities": {
+      "state_management": "supported",
+      "tool_calling": "native",
+      "structured_outputs": "native",
+      "human_approval": "supported",
+      "tracing": "native",
+      "mcp": "native",
+      "multi_agent": "supported",
+      "provider_flexibility": "strong",
+      "durable_execution": "integration",
+      "offline_testing": "native"
+    },
+    "task_mapping": {
+      "entry": "Agent",
+      "routing": "agent logic / tools / multi-agent patterns",
+      "tools": "typed function tools",
+      "state": "dependencies + message history",
+      "approval": "deferred/approval-aware tool flows",
+      "result": "validated typed output"
+    },
+    "strengths": [
+      "Strong typed-data and structured-output ergonomics",
+      "Broad model-provider surface",
+      "Official TestModel and FunctionModel support for offline tests"
+    ],
+    "watch_items": [
+      "Some orchestration capabilities rely on integrations rather than one built-in runtime",
+      "Provider-specific features can vary",
+      "Pydantic AI and Pydantic Graph solve different layers of the problem"
+    ]
+  }
+]
