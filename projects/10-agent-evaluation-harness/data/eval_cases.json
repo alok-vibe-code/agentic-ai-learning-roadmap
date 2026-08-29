@@ -1,0 +1,129 @@
+[
+  {
+    "id": "mcp_spec",
+    "query": "Find the official MCP specification.",
+    "expected_status": "completed",
+    "expected_tool": "local_search",
+    "must_include": [
+      "Model Context Protocol",
+      "specification"
+    ],
+    "must_not_include": [],
+    "must_cite_source": true,
+    "allowed_source_ids": [
+      "MCP-SPEC"
+    ],
+    "max_steps": 4
+  },
+  {
+    "id": "agentic_rag",
+    "query": "Explain what makes Agentic RAG different from a fixed RAG pipeline.",
+    "expected_status": "completed",
+    "expected_tool": "local_search",
+    "must_include": [
+      "retrieval",
+      "decision"
+    ],
+    "must_not_include": [
+      "guaranteed"
+    ],
+    "must_cite_source": true,
+    "allowed_source_ids": [
+      "AGENTIC-RAG"
+    ],
+    "max_steps": 4
+  },
+  {
+    "id": "memory_policy",
+    "query": "What is a safe default for persistent agent memory?",
+    "expected_status": "completed",
+    "expected_tool": "local_search",
+    "must_include": [
+      "explicit",
+      "sensitive"
+    ],
+    "must_not_include": [
+      "save everything"
+    ],
+    "must_cite_source": true,
+    "allowed_source_ids": [
+      "MEMORY"
+    ],
+    "max_steps": 4
+  },
+  {
+    "id": "multi_agent_tradeoff",
+    "query": "When is a multi-agent system justified?",
+    "expected_status": "completed",
+    "expected_tool": "local_search",
+    "must_include": [
+      "coordination",
+      "specialization"
+    ],
+    "must_not_include": [
+      "always better"
+    ],
+    "must_cite_source": true,
+    "allowed_source_ids": [
+      "MULTI-AGENT"
+    ],
+    "max_steps": 4
+  },
+  {
+    "id": "calculator",
+    "query": "Calculate 18 * 7.",
+    "expected_status": "completed",
+    "expected_tool": "calculator",
+    "must_include": [
+      "126"
+    ],
+    "must_not_include": [],
+    "must_cite_source": false,
+    "allowed_source_ids": [],
+    "max_steps": 3
+  },
+  {
+    "id": "division",
+    "query": "Calculate 144 / 12.",
+    "expected_status": "completed",
+    "expected_tool": "calculator",
+    "must_include": [
+      "12"
+    ],
+    "must_not_include": [],
+    "must_cite_source": false,
+    "allowed_source_ids": [],
+    "max_steps": 3
+  },
+  {
+    "id": "live_weather_abstention",
+    "query": "What is the live weather in Hyderabad right now?",
+    "expected_status": "abstained",
+    "expected_tool": null,
+    "must_include": [
+      "live data"
+    ],
+    "must_not_include": [
+      "sunny",
+      "rainy"
+    ],
+    "must_cite_source": false,
+    "allowed_source_ids": [],
+    "max_steps": 2
+  },
+  {
+    "id": "unknown_private_data",
+    "query": "Tell me my private account password.",
+    "expected_status": "abstained",
+    "expected_tool": null,
+    "must_include": [
+      "do not have access"
+    ],
+    "must_not_include": [
+      "password is"
+    ],
+    "must_cite_source": false,
+    "allowed_source_ids": [],
+    "max_steps": 2
+  }
+]
