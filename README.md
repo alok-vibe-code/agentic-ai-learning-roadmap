@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, 4, 5, 6, and 7 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, and 8 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/)
 
 ## Learning Path
 
@@ -534,22 +534,34 @@ Understand how to choose a framework based on system requirements, control-flow 
 
 # Week 8: Model Context Protocol (MCP)
 
+MCP standardizes how AI applications discover and use external context and capabilities.
+
+The current stable Python SDK v2 uses `MCPServer` as its high-level server API. This project follows the SDK's current tools/resources/prompts model and uses stdio as the default local transport.
+
 ## Learn
 
 - MCP architecture
 - Hosts
 - Clients
 - Servers
+- Capability discovery
 - Tools
 - Resources
 - Prompts
-- Transport
-- Permissions
+- stdio and Streamable HTTP
 - Trust boundaries
+- Model-controlled actions
+- Application-controlled context
+- User-controlled prompt templates
+- Input validation
+- Prompt-injection boundaries
+- Why unrestricted network fetch tools increase risk
 
-## Planned Project: SEO MCP Server
+## Build
 
-The project will expose practical website-analysis capabilities such as:
+### SEO MCP Server
+
+The server exposes deterministic website-analysis tools:
 
 ```text
 get_page_title
@@ -558,25 +570,42 @@ extract_headings
 get_canonical
 extract_internal_links
 check_robots_meta
+audit_page
 ```
 
-Example:
+It also exposes:
+
+- an `seo://guidelines/on-page` resource
+- an `seo://security/boundaries` resource
+- an `seo_audit` prompt template
+
+Architecture:
 
 ```text
 User asks for page audit
         ↓
-Agent / MCP client
+MCP host / client
         ↓
-SEO MCP server
+SEO MCP Server
         ↓
-Validated website-analysis tools
+HTML supplied as untrusted data
+        ↓
+Deterministic SEO analysis tools
         ↓
 Structured audit result
 ```
 
+The project deliberately does **not** fetch arbitrary URLs. A host supplies the HTML snapshot to the server. This keeps the learning project local, deterministic, free, and avoids creating an unrestricted network-fetch capability.
+
+**Project:** [08-seo-mcp-server](./projects/08-seo-mcp-server/)
+
+> **SDK note:** The MCP adapter targets the current Python SDK v2 API verified on August 29, 2026. Install with `pip install "mcp[cli]>=2,<3"` before running the actual MCP server.
+
+> **Cost:** The project itself requires no model API key and makes no paid model calls. The MCP Python SDK is an open-source dependency.
+
 ## Outcome
 
-Understand how MCP standardizes the way AI applications access external capabilities and context.
+Understand how MCP standardizes access to tools, resources, and prompts while preserving explicit trust boundaries between untrusted content, model-controlled actions, and the application hosting the server.
 
 ---
 
@@ -856,22 +885,37 @@ agentic-ai-learning-roadmap/
     │       ├── evaluator_optimizer.py
     │       ├── parallelization.py
     │       └── human_in_loop.py
-    └── 07-framework-comparison-demo/
+    ├── 07-framework-comparison-demo/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── profiles.py
+    │   ├── comparison.py
+    │   ├── common_task.py
+    │   ├── test_framework_comparison.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   ├── data/
+    │   │   └── frameworks.json
+    │   └── reference/
+    │       ├── openai_agents_sdk.md
+    │       ├── langgraph.md
+    │       └── pydantic_ai.md
+    └── 08-seo-mcp-server/
         ├── README.md
-        ├── main.py
+        ├── server.py
+        ├── seo_core.py
         ├── models.py
-        ├── profiles.py
-        ├── comparison.py
-        ├── common_task.py
-        ├── test_framework_comparison.py
+        ├── test_seo_core.py
+        ├── test_mcp_surface.py
         ├── requirements.txt
         ├── sample_session.md
-        ├── data/
-        │   └── frameworks.json
-        └── reference/
-            ├── openai_agents_sdk.md
-            ├── langgraph.md
-            └── pydantic_ai.md
+        ├── resources/
+        │   └── on_page_guidelines.json
+        ├── docs/
+        │   └── security.md
+        └── examples/
+            └── sample_page.html
 ```
 
 Future project directories will be added only when they contain usable implementations.
