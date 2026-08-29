@@ -10,7 +10,7 @@ The roadmap follows a simple principle:
 
 Instead of starting with complex multi-agent frameworks, the path begins with the foundations that agents depend on: structured model output, tool calling, state, retrieval, memory, and agent loops. It then progresses into MCP, multi-agent systems, evaluation, security, and production engineering.
 
-> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, 8, and 9 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
+> **Current release:** Weeks 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 include runnable projects. Later projects are intentionally marked as planned until working implementations are added.
 
 ## At a Glance
 
@@ -19,7 +19,7 @@ Instead of starting with complex multi-agent frameworks, the path begins with th
 - **Primary language:** Python
 - **Approach:** Theory + hands-on projects
 - **End goal:** Build, evaluate, secure, and deploy a production-oriented AI agent
-- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/) · [Week 9 - Multi-Agent Research Team](./projects/09-multi-agent-research-team/)
+- **Available projects:** [Week 1 - Structured LLM Assistant](./projects/01-structured-llm-assistant/) · [Week 2 - Tool Calling Agent](./projects/02-tool-calling-agent/) · [Week 3 - Research Agent](./projects/03-research-agent/) · [Week 4 - Agentic RAG](./projects/04-agentic-rag/) · [Week 5 - Memory-Aware Assistant](./projects/05-memory-aware-assistant/) · [Week 6 - Agent Pattern Examples](./projects/06-agent-pattern-examples/) · [Week 7 - Framework Comparison Demo](./projects/07-framework-comparison-demo/) · [Week 8 - SEO MCP Server](./projects/08-seo-mcp-server/) · [Week 9 - Multi-Agent Research Team](./projects/09-multi-agent-research-team/) · [Week 10 - Agent Evaluation Harness](./projects/10-agent-evaluation-harness/)
 
 ## Learning Path
 
@@ -92,7 +92,7 @@ Only projects with tested, runnable implementations should be marked **Available
 | 7 | Frameworks | [Framework Comparison Demo](./projects/07-framework-comparison-demo/) | ✅ Available |
 | 8 | MCP | [SEO MCP Server](./projects/08-seo-mcp-server/) | ✅ Available |
 | 9 | Multi-agent systems | [Multi-Agent Research Team](./projects/09-multi-agent-research-team/) | ✅ Available |
-| 10 | Evaluation | Agent Evaluation Harness | 🔜 Planned |
+| 10 | Evaluation | [Agent Evaluation Harness](./projects/10-agent-evaluation-harness/) | ✅ Available |
 | 11 | Security | Secure Approval-Based Agent | 🔜 Planned |
 | 12 | Production | Production-Hardened Agent | 🔜 Planned |
 
@@ -709,6 +709,8 @@ Understand when specialized roles and explicit review boundaries justify multi-a
 
 A demo is not reliable merely because it produced one good result.
 
+Week 10 turns expected agent behavior into executable evaluation cases and observable traces.
+
 ## Learn
 
 ### Evaluation
@@ -716,38 +718,100 @@ A demo is not reliable merely because it produced one good result.
 - Task completion
 - Correct tool selection
 - Groundedness
-- Factual accuracy
+- Required-content checks
 - Citation quality
+- Abstention behavior
 - Failure rate
-- Latency
-- Cost
+- Regression thresholds
+- Latency signals
+- Cost signals
 
 ### Observability
 
-- Traces
+- Trace IDs
 - Spans
+- Events
 - Tool calls
-- Retries
-- Token usage
+- Step counts
 - Errors
-- Model responses
+- Estimated token usage
+- Cost metadata
+- Candidate outputs
 
-## Planned Project: Agent Evaluation Harness
+## Build
 
-Example evaluation case:
+### Agent Evaluation Harness
+
+The working harness evaluates an agent against a versioned local test suite.
+
+Each case can define:
 
 ```json
 {
   "query": "Find the official MCP specification.",
-  "expected_tool": "web_search",
+  "expected_status": "completed",
+  "expected_tool": "local_search",
   "must_include": ["Model Context Protocol"],
-  "must_cite_source": true
+  "must_cite_source": true,
+  "allowed_source_ids": ["MCP-SPEC"],
+  "max_steps": 4
 }
 ```
 
+The evaluator checks:
+
+```text
+Agent run
+   ↓
+Expected status?
+   ↓
+Correct tool?
+   ↓
+Required content present?
+   ↓
+Citation requirement satisfied?
+   ↓
+Citations grounded in observed tool results?
+   ↓
+Step budget respected?
+   ↓
+Trace structurally valid?
+   ↓
+Case result + aggregate metrics
+```
+
+The project includes two deterministic candidates:
+
+- **good**: satisfies the bundled evaluation suite
+- **broken**: intentionally introduces tool-selection and citation regressions
+
+This proves that the harness can detect failures instead of only generating a success report.
+
+Aggregate metrics include:
+
+- case pass rate
+- task-completion accuracy
+- tool-selection accuracy
+- content-check pass rate
+- citation pass rate
+- groundedness pass rate
+- trace-integrity pass rate
+- failure rate
+- average observed latency
+- estimated token usage
+- reported cost
+
+A regression checker compares the current metrics with a versioned baseline and fails when required floors are not met.
+
+**Project:** [10-agent-evaluation-harness](./projects/10-agent-evaluation-harness/)
+
+> **Zero-cost mode:** Python standard library only. No model API, network request, tracing vendor, or paid service is required.
+
+> **Important:** Latency and token counts in this deterministic demo are operational signals, not universal quality scores. Production evaluation should add model-specific and domain-specific graders where appropriate.
+
 ## Outcome
 
-Learn to measure agent behavior rather than relying on subjective impressions.
+Learn to define expected agent behavior as repeatable tests, inspect execution traces, aggregate meaningful metrics, and detect regressions before deployment.
 
 ---
 
@@ -974,26 +1038,43 @@ agentic-ai-learning-roadmap/
     │   │   └── security.md
     │   └── examples/
     │       └── sample_page.html
-    └── 09-multi-agent-research-team/
+    ├── 09-multi-agent-research-team/
+    │   ├── README.md
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── search.py
+    │   ├── coordinator.py
+    │   ├── single_agent.py
+    │   ├── comparison.py
+    │   ├── test_multi_agent_team.py
+    │   ├── requirements.txt
+    │   ├── sample_session.md
+    │   ├── data/
+    │   │   └── sources.json
+    │   └── agents/
+    │       ├── __init__.py
+    │       ├── planner.py
+    │       ├── researcher.py
+    │       ├── fact_checker.py
+    │       ├── writer.py
+    │       └── reviewer.py
+    └── 10-agent-evaluation-harness/
         ├── README.md
         ├── main.py
         ├── models.py
-        ├── search.py
-        ├── coordinator.py
-        ├── single_agent.py
-        ├── comparison.py
-        ├── test_multi_agent_team.py
+        ├── cases.py
+        ├── demo_agent.py
+        ├── observability.py
+        ├── evaluator.py
+        ├── metrics.py
+        ├── regression.py
+        ├── reporters.py
+        ├── test_evaluation_harness.py
         ├── requirements.txt
         ├── sample_session.md
-        ├── data/
-        │   └── sources.json
-        └── agents/
-            ├── __init__.py
-            ├── planner.py
-            ├── researcher.py
-            ├── fact_checker.py
-            ├── writer.py
-            └── reviewer.py
+        └── data/
+            ├── eval_cases.json
+            └── baseline.json
 ```
 
 Future project directories will be added only when they contain usable implementations.

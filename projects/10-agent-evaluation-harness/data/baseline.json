@@ -1,0 +1,17 @@
+{
+  "suite_version": "1.0",
+  "candidate": "good",
+  "metric_floors": {
+    "case_pass_rate": 1.0,
+    "task_completion_accuracy": 1.0,
+    "tool_selection_accuracy": 1.0,
+    "content_check_pass_rate": 1.0,
+    "citation_pass_rate": 1.0,
+    "groundedness_pass_rate": 1.0,
+    "trace_integrity_pass_rate": 1.0
+  },
+  "metric_ceilings": {
+    "failure_rate": 0.0,
+    "reported_cost_usd": 0.0
+  }
+}

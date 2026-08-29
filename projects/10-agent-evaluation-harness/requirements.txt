@@ -1,0 +1,2 @@
+# Python 3.10+ standard library only.
+# No API key, model provider, network request, tracing vendor, or paid service required.
