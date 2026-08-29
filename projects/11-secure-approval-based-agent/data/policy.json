@@ -1,0 +1,93 @@
+{
+  "version": "1.0",
+  "actions": {
+    "search": {
+      "risk": "LOW",
+      "permission": "search",
+      "approval_required": false
+    },
+    "read_resource": {
+      "risk": "LOW",
+      "permission": "read",
+      "approval_required": false
+    },
+    "calculate": {
+      "risk": "LOW",
+      "permission": "calculate",
+      "approval_required": false
+    },
+    "send_email": {
+      "risk": "SENSITIVE",
+      "permission": "email.send",
+      "approval_required": true
+    },
+    "publish_content": {
+      "risk": "SENSITIVE",
+      "permission": "content.publish",
+      "approval_required": true
+    },
+    "delete_file": {
+      "risk": "SENSITIVE",
+      "permission": "file.delete",
+      "approval_required": true
+    },
+    "modify_external_record": {
+      "risk": "SENSITIVE",
+      "permission": "external.modify",
+      "approval_required": true
+    },
+    "financial_transfer": {
+      "risk": "SENSITIVE",
+      "permission": "finance.transfer",
+      "approval_required": true
+    },
+    "execute_shell": {
+      "risk": "FORBIDDEN",
+      "permission": "shell.execute",
+      "approval_required": false
+    },
+    "read_secret": {
+      "risk": "FORBIDDEN",
+      "permission": "secret.read",
+      "approval_required": false
+    }
+  },
+  "roles": {
+    "viewer": [
+      "search",
+      "read",
+      "calculate"
+    ],
+    "operator": [
+      "search",
+      "read",
+      "calculate",
+      "email.send",
+      "content.publish",
+      "external.modify"
+    ],
+    "admin": [
+      "search",
+      "read",
+      "calculate",
+      "email.send",
+      "content.publish",
+      "external.modify",
+      "file.delete",
+      "finance.transfer"
+    ]
+  },
+  "allowlisted_resources": [
+    "security-guide",
+    "agent-policy",
+    "deployment-checklist"
+  ],
+  "limits": {
+    "max_request_chars": 2000,
+    "max_actions_per_request": 5,
+    "max_requests_per_window": 10,
+    "rate_window_seconds": 60,
+    "approval_ttl_seconds": 300,
+    "max_financial_transfer": 1000.0
+  }
+}

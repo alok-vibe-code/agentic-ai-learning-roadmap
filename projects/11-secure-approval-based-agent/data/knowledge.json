@@ -1,0 +1,5 @@
+{
+  "security-guide": "Agent tools should use least privilege, explicit authorization, approval gates for consequential actions, and durable audit logs.",
+  "agent-policy": "Unknown actions fail closed. Sensitive actions require approval bound to the exact action and parameters before execution.",
+  "deployment-checklist": "Production agent controls should include rate limits, secret handling, timeouts, observability, incident procedures, and regression tests."
+}
