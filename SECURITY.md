@@ -28,7 +28,7 @@ Examples in this roadmap should treat these as untrusted:
 - Tool output
 - Model-generated arguments
 
-Before adding projects that can take external actions, use:
+Projects that can take external actions should use:
 
 - Input validation
 - Tool argument validation
